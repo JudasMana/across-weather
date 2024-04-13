@@ -107,7 +107,8 @@ export default {
       return (
         this.suggestionsAreVisible &&
         this.suggestions.length === 0 &&
-        this.cityString !== ""
+        this.cityString !== "" &&
+        !this.searchError
       );
     },
   },
