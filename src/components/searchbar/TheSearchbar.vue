@@ -16,19 +16,12 @@
       <ul v-if="visibleSuggestions">
         <SearchSuggestion
           v-for="sugg in suggestions"
-          :key="`${sugg.lat}${sugg.lon}`"
+          :key="`${sugg.name}${sugg.lat}${sugg.lon}`"
           :city="sugg"
           @sendCitySignal="setSelectedCity"
         />
       </ul>
-      <div id="context-window" v-if="suggestionsAreLoading">
-        <TheSpinner />
-      </div>
       <div id="context-window" v-if="noResults">No results found</div>
-      <div id="context-window" v-if="errorLoadingSuggestions">
-        Oops. Something went wrong... <br />
-        {{ errorLoadingSuggestions }}
-      </div>
       <p class="error-message" v-if="searchEmptyError">Search a city name</p>
       <p class="error-message" v-if="searchError">No cities found</p>
     </form>
@@ -46,21 +39,19 @@ export default {
       cityString: "",
       suggestions: [],
       suggestionsAreVisible: false,
-      suggestionsAreLoading: false,
-      errorLoadingSuggestions: false,
       searchEmptyError: false,
       searchError: false,
     };
   },
   methods: {
-    async setSearch() {
+    setSearch() {
       if (this.cityString === "") {
         this.searchEmptyError = true;
         return;
       }
 
       try {
-        const cityFound = await getCityData(this.cityString, 1);
+        const cityFound = getCityData(this.cityString, 1);
         this.cityString = cityFound[0].name;
 
         if (!this.cityString) return;
@@ -76,7 +67,7 @@ export default {
 
       this.suggestionsAreVisible = false;
     },
-    async getCities() {
+    getCities() {
       this.searchEmptyError = false;
       this.searchError = false;
 
@@ -84,20 +75,12 @@ export default {
         this.suggestions = [];
         return;
       }
-      this.suggestionsAreLoading = true;
 
-      try {
-        this.suggestions = await getCityData(this.cityString, 10);
-      } catch (err) {
-        this.errorLoadingSuggestions = err;
-        return;
-      }
+      this.suggestions = getCityData(this.cityString, 10);
 
       if (this.cityString === "") {
         this.suggestions = [];
       }
-      this.suggestionsAreLoading = false;
-      this.errorLoadingSuggestions = false;
     },
     setSelectedCity(cityName) {
       this.cityString = cityName;
@@ -105,7 +88,6 @@ export default {
         "setCoords",
         this.suggestions.find((sugg) => sugg.name === cityName)
       );
-      this.suggestions = [];
       this.suggestionsAreVisible = false;
     },
     showSuggestions() {
@@ -119,19 +101,13 @@ export default {
   },
   computed: {
     visibleSuggestions() {
-      return (
-        this.suggestionsAreVisible &&
-        this.suggestions.length > 0 &&
-        !this.suggestionsAreLoading &&
-        !this.errorLoadingSuggestions
-      );
+      return this.suggestionsAreVisible && this.suggestions.length > 0;
     },
     noResults() {
       return (
         this.suggestionsAreVisible &&
         this.suggestions.length === 0 &&
-        this.cityString !== "" &&
-        !this.suggestionsAreLoading
+        this.cityString !== ""
       );
     },
   },

@@ -56,7 +56,7 @@ export default {
         this.cityData.lat,
         this.cityData.lon
       );
-      // console.log(this.forecastData);
+      console.log(this.forecastData);
     },
   },
 };
@@ -66,14 +66,39 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 :root {
-  --main-width: 40rem;
+  --main-width: 95%;
   --medium-width: 20rem;
   --main-accent: rgb(40, 121, 96);
   --main-white: rgb(240, 234, 234);
   --main-black: rgba(29, 27, 27, 0.363);
+  font-size: 3vw;
+}
 
-  @media screen and (min-width: 1200px) {
-    --main-width: 60rem;
+@media screen and (min-width: 490px) {
+  :root {
+    --main-width: 36rem;
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  :root {
+    --main-width: 40rem;
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  :root {
+    --main-width: 50rem;
+    font-size: 15px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  :root {
+    --main-width: 55rem;
+    font-size: 16px;
   }
 }
 
@@ -86,7 +111,6 @@ export default {
 
 html {
   width: 100vw;
-  min-height: 100vh;
   overflow-x: hidden;
 }
 
