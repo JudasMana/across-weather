@@ -18,6 +18,7 @@ export default {
         type: "bar",
         options: {
           animation: true,
+          responsive: true,
           plugins: {
             legend: {
               display: false,
@@ -75,7 +76,7 @@ export default {
     },
     async drawStackedLine() {
       this.chart = new Chart(this.$refs.canvasBar, {
-        type: "line",
+        type: "bar",
         options: {
           animation: true,
           plugins: {
@@ -106,7 +107,7 @@ export default {
           },
           scales: {
             x: {
-              stacked: true,
+              stacked: false,
             },
             y: {
               stacked: false,
@@ -151,7 +152,7 @@ export default {
         label += `Humidity: ${context.parsed.y.toFixed(0)}%`;
       }
       if (this.filters.wind) {
-        label += `Wind speed: ${context.parsed.y.toFixed(1)}km/h`;
+        label += `Wind speed: ${context.parsed.y.toFixed(1)}m/s`;
       }
 
       return label;
@@ -162,18 +163,22 @@ export default {
   },
   watch: {
     chartData() {
-      if (!this.chart) {
-        return;
-      }
       this.chart.destroy();
       this.filters.minMaxTemp ? this.drawStackedLine() : this.drawStandardBar();
     },
   },
   computed: {
     dataToShow() {
-      return this.chartData.map((row) => {
+      console.log(
+        this.chartData.map((row) => {
+          return row.value;
+        })
+      );
+      const valoriDeiDati = this.chartData.map((row) => {
         return row.value;
       });
+
+      return valoriDeiDati;
     },
     axisYTitle() {
       if (this.filters.mainTemp) {
@@ -183,7 +188,7 @@ export default {
         return "Humidity (%)";
       }
       if (this.filters.wind) {
-        return "Wind speed (km/h)";
+        return "Wind speed (m/s)";
       }
       return "";
     },

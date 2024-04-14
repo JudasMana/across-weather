@@ -137,4 +137,18 @@ section {
   cursor: not-allowed;
   background-color: rgb(160, 144, 144);
 }
+
+@media screen and (min-width: 1400px) {
+  section {
+    height: 100%;
+  }
+
+  .filters {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: center;
+  }
+}
 </style>

@@ -76,4 +76,10 @@ th {
   text-align: start;
   padding-left: 1rem;
 }
+
+@media screen and (min-width: 1200px) {
+  #hour-column {
+    width: 40%;
+  }
+}
 </style>

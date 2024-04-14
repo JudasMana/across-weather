@@ -31,6 +31,12 @@ export default {
   }
 }
 
+@media screen and (min-width: 1400px) {
+  .tab {
+    height: 2.5rem;
+  }
+}
+
 .tab:active {
   background-color: rgb(207, 191, 191);
 }

@@ -121,9 +121,9 @@ export const fillForecasts = function (forecasts, type) {
     `${21 + fuso}:00`,
   ];
 
-  if (type === "minMaxTemp") {
-    return actualForecast;
-  }
+  // if (type === "minMaxTemp") {
+  //   return actualForecast;
+  // }
 
   return allTimes.map((time) => {
     const forecastAtThatTime = actualForecast.find((fore) => {

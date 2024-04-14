@@ -7,25 +7,35 @@
       <p>Something ewent wrong...</p>
     </BaseCard>
     <section v-if="!isLoading && !error && weatherData">
-      <MainWeather
-        :weatherData="weatherData"
-        :forecastData="forecastData"
-        :cityData="cityData"
-      />
-      <TheFilter :currentFilters="filters" @update-filters="updateFilters" />
-      <TheTable
-        :dayOfData="dayOfTheFilter"
-        :forecastData="forecastDataOfTheDay"
-      />
-      <TheBarChart
-        :forecastData="forecastDataOfTheDay"
-        :dataFilters="filters.dataFilters"
-        :dayOfData="dayOfTheFilter"
-      />
-      <ThePieChart
-        :forecastData="forecastDataOfTheDay"
-        :dayOfData="dayOfTheFilter"
-      />
+      <div class="mainWeatherContainer">
+        <MainWeather
+          :weatherData="weatherData"
+          :forecastData="forecastData"
+          :cityData="cityData"
+        />
+      </div>
+      <div class="filtersContainer">
+        <TheFilter :currentFilters="filters" @update-filters="updateFilters" />
+      </div>
+      <div class="tableContainer">
+        <TheTable
+          :dayOfData="dayOfTheFilter"
+          :forecastData="forecastDataOfTheDay"
+        />
+      </div>
+      <div class="barChartContainer">
+        <TheBarChart
+          :forecastData="forecastDataOfTheDay"
+          :dataFilters="filters.dataFilters"
+          :dayOfData="dayOfTheFilter"
+        />
+      </div>
+      <div class="pieChartContainer">
+        <ThePieChart
+          :forecastData="forecastDataOfTheDay"
+          :dayOfData="dayOfTheFilter"
+        />
+      </div>
     </section>
   </main>
 </template>
@@ -36,7 +46,7 @@ import TheTable from "./table/TheTable";
 import TheBarChart from "./bar-chart/TheBarChart.vue";
 import ThePieChart from "./pie-chart/ThePieChart.vue";
 import TheFilter from "../filters/TheFilter";
-import fuso from "../../config";
+import { fuso } from "../../config";
 
 export default {
   props: ["cityData", "weatherData", "forecastData", "isLoading", "error"],
@@ -84,7 +94,7 @@ export default {
 
       let date = new Date();
 
-      if (date.getHours() >= 21 + fuso) {
+      if (+date.getHours() >= 21 + fuso) {
         daysToAdd++;
       }
 
@@ -104,7 +114,7 @@ export default {
 
 <style scoped>
 main {
-  width: 100%;
+  width: var(--main-width);
   margin: 2rem 0 5rem;
   display: flex;
   flex-direction: column;
@@ -113,9 +123,38 @@ main {
 
 section {
   width: 100%;
+  height: max-content;
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+.mainWeatherContainer {
+  grid-area: weather;
+  width: 100%;
+  height: max-content;
+}
+
+.filtersContainer {
+  grid-area: filter;
+  width: 100%;
+  height: max-content;
+}
+
+.tableContainer {
+  grid-area: tabella;
+  width: 100%;
+}
+
+.barChartContainer {
+  grid-area: barChart;
+  width: 100%;
+  height: max-content;
+}
+
+.pieChartContainer {
+  grid-area: pieChart;
+  width: 100%;
 }
 
 #medium-container {
@@ -128,5 +167,48 @@ section {
   box-shadow: 0 0 5px var(--main-black);
   padding: 1rem;
   margin: 1rem 0;
+}
+
+@media screen and (min-width: 1200px) {
+  section {
+    display: grid;
+    grid-template-areas: "weather weather" "filter filter" "barChart barChart" "tabella pieChart";
+    grid-template-columns: 4fr 3fr;
+    place-items: start;
+    width: var(--main-width);
+    column-gap: 1rem;
+  }
+
+  .filtersContainer {
+    height: max-content;
+  }
+
+  .tableContainer {
+    height: max-content;
+  }
+
+  .barChartContainer {
+    height: max-content;
+  }
+
+  .pieChartContainer {
+    height: max-content;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  section {
+    grid-template-areas: "weather weather" "filter barChart" "tabella pieChart";
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1rem;
+  }
+
+  .filtersContainer {
+    height: 100%;
+  }
+
+  .barChartContainer {
+    height: 100%;
+  }
 }
 </style>

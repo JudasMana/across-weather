@@ -87,4 +87,15 @@ section {
   aspect-ratio: 1/1;
   width: 50%;
 }
+
+@media screen and (min-width: 1200px) {
+  section {
+    flex-direction: column;
+  }
+
+  #graph-container {
+    aspect-ratio: 1/1;
+    width: 15rem;
+  }
+}
 </style>

@@ -13,7 +13,7 @@ div {
   display: flex;
   flex-direction: column;
   background-color: rgb(255, 253, 253);
-  width: var(--main-width);
+  height: 100%;
   border-radius: 10px;
   box-shadow: 0 0 10px var(--main-black);
   padding: 1rem;
