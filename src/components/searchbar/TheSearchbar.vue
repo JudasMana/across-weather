@@ -118,12 +118,26 @@ export default {
 </script>
 
 <style scoped>
+div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 form {
-  width: var(--medium-width);
+  width: 70%;
   background-color: white;
   position: relative;
   border-radius: 3rem;
-  height: 2.5rem;
+  height: 4rem;
+}
+
+@media screen and (min-width: 490px) {
+  form {
+    width: var(--medium-width);
+    height: 2.5rem;
+  }
 }
 
 input {

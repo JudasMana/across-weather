@@ -12,8 +12,11 @@
         :forecastData="forecastData"
         :cityData="cityData"
       />
-      <TheSeparator />
       <TheFilter :currentFilters="filters" @update-filters="updateFilters" />
+      <TheTable
+        :dayOfData="dayOfTheFilter"
+        :forecastData="forecastDataOfTheDay"
+      />
       <TheBarChart
         :forecastData="forecastDataOfTheDay"
         :dataFilters="filters.dataFilters"
@@ -29,10 +32,11 @@
 
 <script>
 import MainWeather from "./MainWeather.vue";
-import TheBarChart from "./TheBarChart.vue";
-import ThePieChart from "./ThePieChart.vue";
+import TheTable from "./table/TheTable";
+import TheBarChart from "./bar-chart/TheBarChart.vue";
+import ThePieChart from "./pie-chart/ThePieChart.vue";
 import TheFilter from "../filters/TheFilter";
-import TheSeparator from "../UI/TheSeparator";
+import fuso from "../../config";
 
 export default {
   props: ["cityData", "weatherData", "forecastData", "isLoading", "error"],
@@ -58,7 +62,7 @@ export default {
     TheBarChart,
     TheFilter,
     ThePieChart,
-    TheSeparator,
+    TheTable,
   },
   methods: {
     updateFilters(obj) {
@@ -79,6 +83,11 @@ export default {
       }
 
       let date = new Date();
+
+      if (date.getHours() >= 21 + fuso) {
+        daysToAdd++;
+      }
+
       return new Date(date.setDate(date.getDate() + daysToAdd));
     },
     forecastDataOfTheDay() {

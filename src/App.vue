@@ -1,4 +1,5 @@
 <template>
+  <TheStartScreen v-if="showStartScreen" />
   <TheHeader />
   <TheSearchbar @setCoords="setCityData" />
   <TheWeather
@@ -16,9 +17,10 @@ import { getWeatherData, getForecastData } from "./helpers.js";
 import TheHeader from "./components/layout/TheHeader";
 import TheSearchbar from "./components/searchbar/TheSearchbar.vue";
 import TheWeather from "./components/weather/TheWeather";
+import TheStartScreen from "./components/layout/TheStartScreen.vue";
 
 export default {
-  components: { TheHeader, TheSearchbar, TheWeather },
+  components: { TheHeader, TheSearchbar, TheWeather, TheStartScreen },
   data() {
     return {
       cityData: null,
@@ -26,6 +28,7 @@ export default {
       forecastData: null,
       fetchError: false,
       fetchLoading: false,
+      showStartScreen: true,
     };
   },
   methods: {
@@ -58,6 +61,11 @@ export default {
       );
       console.log(this.forecastData);
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.showStartScreen = false;
+    }, 4000);
   },
 };
 </script>
@@ -124,5 +132,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.hidden {
+  transform: translateY(5rem);
+  opacity: 0;
 }
 </style>

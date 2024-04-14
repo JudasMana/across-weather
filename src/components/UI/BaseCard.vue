@@ -18,5 +18,6 @@ div {
   box-shadow: 0 0 10px var(--main-black);
   padding: 1rem;
   margin: 1rem 0;
+  transition: transform 1s, opacity 1s;
 }
 </style>

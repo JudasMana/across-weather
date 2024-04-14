@@ -1,5 +1,5 @@
 <template>
-  <BaseCard>
+  <BaseCard :class="{ hidden: !showCard }">
     <section>
       <div class="filters">
         <p class="filters-label">Time filters</p>
@@ -59,9 +59,15 @@
 </template>
 
 <script>
+import { showCardTransitionTime } from "@/config";
 import FilterTab from "./FilterTab.vue";
 
 export default {
+  data() {
+    return {
+      showCard: false,
+    };
+  },
   components: { FilterTab },
   props: ["currentFilters"],
   methods: {
@@ -94,6 +100,11 @@ export default {
     },
   },
   emits: ["update-filters"],
+  mounted() {
+    setTimeout(() => {
+      this.showCard = true;
+    }, showCardTransitionTime);
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <BaseCard>
+  <BaseCard :class="{ hidden: !showCard }">
     <div id="country-info">
       <h2 id="city">{{ cityData.name }}</h2>
       <p id="country">{{ cityData.country }}</p>
@@ -20,29 +20,20 @@
       </div>
     </div>
   </BaseCard>
+  <TheSeparator :class="{ hidden: !showCard }" />
 </template>
 
 <script>
-import clearImage from "../../../public/wheater-icons/wi-day-sunny.svg";
-import clearImageNight from "../../../public/wheater-icons/wi-night-clear.svg";
-import fewCloudsImage from "../../../public/wheater-icons/wi-day-cloudy.svg";
-import fewCloudsImageNight from "../../../public/wheater-icons/wi-night-cloudy.svg";
-import cloudsImage from "../../../public/wheater-icons/wi-cloud.svg";
-import cloudsImageNight from "../../../public/wheater-icons/wi-cloud.svg";
-import brokenCloudsImage from "../../../public/wheater-icons/wi-cloudy.svg";
-import brokenCloudsImageNight from "../../../public/wheater-icons/wi-cloudy.svg";
-import showerRainImage from "../../../public/wheater-icons/wi-day-showers.svg";
-import showerRainImageNight from "../../../public/wheater-icons/wi-night-showers.svg";
-import rainImage from "../../../public/wheater-icons/wi-day-rain.svg";
-import rainImageNight from "../../../public/wheater-icons/wi-night-rain.svg";
-import stormImage from "../../../public/wheater-icons/wi-day-storm-showers.svg";
-import stormImageNight from "../../../public/wheater-icons/wi-night-storm-showers.svg";
-import snowImage from "../../../public/wheater-icons/wi-day-snow.svg";
-import snowImageNight from "../../../public/wheater-icons/wi-night-snow.svg";
-import mistImage from "../../../public/wheater-icons/wi-day-fog.svg";
-import mistImageNight from "../../../public/wheater-icons/wi-night-fog.svg";
+import { getImage } from "@/helpers";
+import TheSeparator from "../UI/TheSeparator";
 
 export default {
+  data() {
+    return {
+      showCard: false,
+    };
+  },
+  components: { TheSeparator },
   props: ["weatherData", "cityData", "forecastData"],
   computed: {
     mainTemperature() {
@@ -58,54 +49,11 @@ export default {
       return (this.weatherData.main.feels_like - 273.15).toFixed(1);
     },
     weatherIconPath() {
-      let image;
-      let dayPeriod;
-      let imageCode;
-      if (this.weatherData.weather.length === 0) {
-        dayPeriod = "night";
-        imageCode = "00";
-      } else {
-        dayPeriod =
-          this.weatherData.weather[0]?.icon.slice(-1) === "d" ? "day" : "night";
-        imageCode = this.weatherData.weather[0]?.icon.slice(0, 2);
-      }
-
-      switch (imageCode) {
-        case "01":
-          image = dayPeriod === "day" ? clearImage : clearImageNight;
-          break;
-        case "02":
-          image = dayPeriod === "day" ? fewCloudsImage : fewCloudsImageNight;
-          break;
-        case "03":
-          image = dayPeriod === "day" ? cloudsImage : cloudsImageNight;
-          break;
-        case "04":
-          image =
-            dayPeriod === "day" ? brokenCloudsImage : brokenCloudsImageNight;
-          break;
-        case "09":
-          image = dayPeriod === "day" ? showerRainImage : showerRainImageNight;
-          break;
-        case "10":
-          image = dayPeriod === "day" ? rainImage : rainImageNight;
-          break;
-        case "11":
-          image = dayPeriod === "day" ? stormImage : stormImageNight;
-          break;
-        case "13":
-          image = dayPeriod === "day" ? snowImage : snowImageNight;
-          break;
-        case "50":
-          image = dayPeriod === "day" ? mistImage : mistImageNight;
-          break;
-
-        default:
-          image = dayPeriod === "day" ? clearImage : clearImageNight;
-          break;
-      }
-      return image;
+      return getImage(this.weatherData.weather[0]?.icon);
     },
+  },
+  mounted() {
+    this.showCard = true;
   },
 };
 </script>

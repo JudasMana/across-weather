@@ -2,26 +2,28 @@ import {
   WEATHER_API_KEY,
   WEATHER_API_URL,
   FORECAST_API_URL,
+  fuso,
 } from "./config.js";
 import cities from "cities.json";
-import clearImage from "../public/wheater-icons/wi-day-sunny.svg";
-import clearImageNight from "../public/wheater-icons/wi-night-clear.svg";
-import fewCloudsImage from "../public/wheater-icons/wi-day-cloudy.svg";
-import fewCloudsImageNight from "../public/wheater-icons/wi-night-cloudy.svg";
-import cloudsImage from "../public/wheater-icons/wi-cloud.svg";
-import cloudsImageNight from "../public/wheater-icons/wi-cloud.svg";
-import brokenCloudsImage from "../public/wheater-icons/wi-cloudy.svg";
-import brokenCloudsImageNight from "../public/wheater-icons/wi-cloudy.svg";
-import showerRainImage from "../public/wheater-icons/wi-day-showers.svg";
-import showerRainImageNight from "../public/wheater-icons/wi-night-showers.svg";
-import rainImage from "../public/wheater-icons/wi-day-rain.svg";
-import rainImageNight from "../public/wheater-icons/wi-night-rain.svg";
-import stormImage from "../public/wheater-icons/wi-day-storm-showers.svg";
-import stormImageNight from "../public/wheater-icons/wi-night-storm-showers.svg";
-import snowImage from "../public/wheater-icons/wi-day-snow.svg";
-import snowImageNight from "../public/wheater-icons/wi-night-snow.svg";
-import mistImage from "../public/wheater-icons/wi-day-fog.svg";
-import mistImageNight from "../public/wheater-icons/wi-night-fog.svg";
+
+import clearImage from "./assets/weather-icons/wi-day-sunny.svg";
+import clearImageNight from "./assets/weather-icons/wi-night-clear.svg";
+import fewCloudsImage from "./assets/weather-icons/wi-day-cloudy.svg";
+import fewCloudsImageNight from "./assets/weather-icons/wi-night-cloudy.svg";
+import cloudsImage from "./assets/weather-icons/wi-cloud.svg";
+import cloudsImageNight from "./assets/weather-icons/wi-cloud.svg";
+import brokenCloudsImage from "./assets/weather-icons/wi-cloudy.svg";
+import brokenCloudsImageNight from "./assets/weather-icons/wi-cloudy.svg";
+import showerRainImage from "./assets/weather-icons/wi-day-showers.svg";
+import showerRainImageNight from "./assets/weather-icons/wi-night-showers.svg";
+import rainImage from "./assets/weather-icons/wi-day-rain.svg";
+import rainImageNight from "./assets/weather-icons/wi-night-rain.svg";
+import stormImage from "./assets/weather-icons/wi-day-storm-showers.svg";
+import stormImageNight from "./assets/weather-icons/wi-night-storm-showers.svg";
+import snowImage from "./assets/weather-icons/wi-day-snow.svg";
+import snowImageNight from "./assets/weather-icons/wi-night-snow.svg";
+import mistImage from "./assets/weather-icons/wi-day-fog.svg";
+import mistImageNight from "./assets/weather-icons/wi-night-fog.svg";
 
 export const getCityData = function (cityString, limit) {
   const matchedCities = cities
@@ -102,20 +104,21 @@ export const fillForecasts = function (forecasts, type) {
     }
 
     return {
-      date: `${new Date(fore.dt_txt).getHours()}:00`,
+      date: `${new Date(fore.dt_txt).getHours() + fuso}:00`,
       value: mappedValue,
+      icon: fore.weather[0]?.icon ?? "01d",
     };
   });
 
   const allTimes = [
-    "0:00",
-    "3:00",
-    "6:00",
-    "9:00",
-    "12:00",
-    "15:00",
-    "18:00",
-    "21:00",
+    `${0 + fuso}:00`,
+    `${3 + fuso}:00`,
+    `${6 + fuso}:00`,
+    `${9 + fuso}:00`,
+    `${12 + fuso}:00`,
+    `${15 + fuso}:00`,
+    `${18 + fuso}:00`,
+    `${21 + fuso}:00`,
   ];
 
   if (type === "minMaxTemp") {
@@ -130,17 +133,23 @@ export const fillForecasts = function (forecasts, type) {
       return {
         date: time,
         value: forecastAtThatTime.value,
+        icon: forecastAtThatTime.icon,
       };
     } else {
       return {
         date: time,
         value: type === "minMaxTemp" ? [0, 0] : 0,
+        icon: null,
       };
     }
   });
 };
 
 export const getImage = function (code) {
+  if (!code) {
+    return null;
+  }
+
   let image;
   const dayPeriod = code.slice(-1) === "d" ? "day" : "night";
   const imageCode = code.slice(0, 2);
