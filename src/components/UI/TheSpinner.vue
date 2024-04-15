@@ -5,6 +5,9 @@
 </template>
 
 <script>
+/**
+ * Componente che mostra lo spinner ruotante
+ */
 export default {};
 </script>
 

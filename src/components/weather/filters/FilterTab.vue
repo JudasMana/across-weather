@@ -5,6 +5,11 @@
 </template>
 
 <script>
+/**
+ * Tasto cliccaabile dei filtri. Riceve:
+ * tabIsActive: bool, determina l'aspetto e la cliccabilità del tasto
+ * test: string, testo che appare sul tasto
+ */
 export default {
   props: ["tabIsActive", "text"],
 };

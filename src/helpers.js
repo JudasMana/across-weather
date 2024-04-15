@@ -25,6 +25,17 @@ import snowImageNight from "./assets/weather-icons/wi-night-snow.svg";
 import mistImage from "./assets/weather-icons/wi-day-fog.svg";
 import mistImageNight from "./assets/weather-icons/wi-night-fog.svg";
 
+/**
+ * Utilizzando cities (https://github.com/lutangar/cities.json) ricava le città suggerite in base ad una stringa, e ne restituisce un numero scpecificabile.
+ * Riceve:
+ * cityString: string, la stringa da mathcare per ricavaaare le città suggerite
+ * limit: int, numero di suggerimenti daa reituire
+ *
+ * Restituisce:
+ * array i cui elementi sono dati sulle città
+ *
+ * Effettua un sorting in base all'oridne aalfabetico, dando priorità alle città che presentano la stringa passata all'inizio del nome
+ */
 export const getCityData = function (cityString, limit) {
   const matchedCities = cities
     .filter((city) => {
@@ -67,6 +78,17 @@ export const getCityData = function (cityString, limit) {
   return matchedCities.slice(0, limit);
 };
 
+/**
+ * Funzione che chiama le API (https://openweathermap.org/current)
+ * Riceve:
+ * lat: float, latitudine del luogo di cui cercare il meteo attuale
+ * lon: float, longitudine del luogo di cui cercare il meteo attuale
+ *
+ * Restituisce:
+ * oggetto con i dati del meteo attuale nelle coordinate passate
+ *
+ * In caso di errore fa un throw di un Error generico
+ */
 export const getWeatherData = async function (lat, lon) {
   const url = `${WEATHER_API_URL}lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`;
 
@@ -79,6 +101,17 @@ export const getWeatherData = async function (lat, lon) {
   return await res.json();
 };
 
+/**
+ * Funzione che chiama le API (https://openweathermap.org/forecast5)
+ * Riceve:
+ * lat: float, latitudine del luogo di cui cercare le previsioni meteo
+ * lon: float, longitudine del luogo di cui cercare le previsioni meteo
+ *
+ * Restituisce:
+ * oggetto con i dati delle previsioni meteo nelle coordinate passate
+ *
+ * In caso di errore fa un throw di un Error generico
+ */
 export const getForecastData = async function (lat, lon) {
   const url = `${FORECAST_API_URL}lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`;
 
@@ -90,7 +123,16 @@ export const getForecastData = async function (lat, lon) {
   return await res.json();
 };
 
-export const fillForecasts = function (forecasts, type) {
+/**
+ * Formatta i dati delle previsionio meteo e resituisce un array più facilmente lavorabile.
+ * Riceve:
+ * forecasts: oggetto con le preivisoni meteo
+ * type: tipo di formattazione che va effettuata (nel caso di tipo minMaxTemp verranno resituiti solo i dati relativi agli orari di cui si possiedono dati)
+ *
+ * Restituisce:
+ * Array i cui elementi sono oggetti del tipo {date: string, indicaa l'orario del dato, value: valore del dato in quell'orario, icon: codice del meteo in quell'orario}
+ */
+export const fillForecasts = function (forecasts, type = "mainTemp") {
   const actualForecast = forecasts.map((fore) => {
     let mappedValue;
     if (type === "mainTemp") {
@@ -110,6 +152,11 @@ export const fillForecasts = function (forecasts, type) {
     };
   });
 
+  if (type === "minMaxTemp") {
+    return actualForecast;
+  }
+
+  // orari nei quali serve il dato
   const allTimes = [
     `${0 + fuso}:00`,
     `${3 + fuso}:00`,
@@ -121,10 +168,7 @@ export const fillForecasts = function (forecasts, type) {
     `${21 + fuso}:00`,
   ];
 
-  // if (type === "minMaxTemp") {
-  //   return actualForecast;
-  // }
-
+  // Filla con 0 i dati negli orari nei quali non si ha il dato
   return allTimes.map((time) => {
     const forecastAtThatTime = actualForecast.find((fore) => {
       return fore.date === time;
@@ -138,13 +182,18 @@ export const fillForecasts = function (forecasts, type) {
     } else {
       return {
         date: time,
-        value: type === "minMaxTemp" ? [0, 0] : 0,
+        value: 0,
         icon: null,
       };
     }
   });
 };
 
+/**
+ * Restituisce un immagine in basae al codice passato.
+ * Riceve:
+ * code: string, indica il codice del meteo
+ */
 export const getImage = function (code) {
   if (!code) {
     return null;
@@ -184,12 +233,17 @@ export const getImage = function (code) {
       break;
 
     default:
-      image = dayPeriod === "day" ? clearImage : clearImageNight;
+      image = null;
       break;
   }
   return image;
 };
 
+/**
+ * Restituisce un codice rgb in basae al codice passato.
+ * Riceve:
+ * code: string, indica il codice del meteo
+ */
 export const getColor = function (code) {
   let colorCode;
   const imageCode = code.slice(0, 2);

@@ -33,7 +33,17 @@ import { getCityData } from "../..//helpers.js";
 
 import SearchSuggestion from "./SearchSuggestion.vue";
 
+/**
+ * Barra di ricerca
+ */
 export default {
+  /**
+   * cityString: valore indicato nell'input (collegato con v-model)
+   * suggestions: elenco città suggerite
+   * suggestionAreVisible: bool, indica se i suggerimenti saranno visibili o meno (diverso dal computed visibleSuggestions che effetivamente gestisce la visibilità del menù suggerimenti)
+   * searchEmptyError: indica se si è ricercato con la barra di ricerca vuota
+   * searchError: indica se si è ricercato senza alcun suggerimento disponibile
+   */
   data() {
     return {
       cityString: "",
@@ -44,29 +54,40 @@ export default {
     };
   },
   methods: {
+    /**
+     * Funzione lanciata al submit del form
+     * Emette l'evento custom setCoords con i dati della città selezionata
+     * Viene selezionata la prima città tra i suggerimenti disponibili
+     * Se la barra di ricerca è vuota viene reso vero il searchEmptyError
+     * Se non ci sono suggerimenti viene reso vero il searchError
+     * Vengono nascosti i suggerimenti
+     */
     setSearch() {
       if (this.cityString === "") {
         this.searchEmptyError = true;
         return;
       }
 
-      try {
-        const cityFound = getCityData(this.cityString, 1);
-        this.cityString = cityFound[0].name;
+      const cityFound = getCityData(this.cityString, 1);
 
-        if (!this.cityString) return;
-
-        this.$emit(
-          "setCoords",
-          this.suggestions.find((sugg) => sugg.name === this.cityString)
-        );
-      } catch {
+      if (cityFound.length === 0) {
         this.searchError = true;
         return;
       }
 
+      this.cityString = cityFound[0].name;
+
+      this.$emit(
+        "setCoords",
+        this.suggestions.find((sugg) => sugg.name === this.cityString)
+      );
+
       this.suggestionsAreVisible = false;
     },
+    /**
+     * Funzione lanciata in @input sulla barra di ricerca
+     * Imposta suggestion con il risultato di getCityData (vd. helpers.js)
+     */
     getCities() {
       this.searchEmptyError = false;
       this.searchError = false;
@@ -82,6 +103,11 @@ export default {
         this.suggestions = [];
       }
     },
+    /**
+     * Funziona lanciata su un click su un suggerimento
+     * Emette l'evento custom setCoords con i dati della città cliccata
+     * Nasconde i suggerimenti
+     */
     setSelectedCity(cityName) {
       this.cityString = cityName;
       this.$emit(
@@ -90,9 +116,16 @@ export default {
       );
       this.suggestionsAreVisible = false;
     },
+    /**
+     * Nasconde i suggerimenti
+     */
     showSuggestions() {
       this.suggestionsAreVisible = true;
     },
+    /**
+     * Nasconde i suggerimenti sul @blur dellaa barra di ricerca
+     * Use un setTimeout per poter rendere cliccabili i suggerimenti
+     */
     hideSuggestions() {
       setTimeout(() => {
         this.suggestionsAreVisible = false;
@@ -100,9 +133,15 @@ export default {
     },
   },
   computed: {
+    /**
+     * Calcola la varibile che mostra o meno il menù suiggerimenti
+     */
     visibleSuggestions() {
       return this.suggestionsAreVisible && this.suggestions.length > 0;
     },
+    /**
+     * Calcola la variaabile che mostra il menù di errore per assenza suggerimenti
+     */
     noResults() {
       return (
         this.suggestionsAreVisible &&

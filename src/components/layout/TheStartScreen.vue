@@ -9,7 +9,15 @@
 </template>
 
 <script>
+/**
+ * Componente che rappresenta la schermata iniziale
+ */
 export default {
+  /**
+   * imgOpacity: indica l'opacità del logo
+   * bgOpacity: indica l'opaacità della componente
+   * logoYMove: indica lo spostamento del logo
+   */
   data() {
     return {
       imgOpacity: 0,
@@ -17,6 +25,9 @@ export default {
       logoYMove: 0,
     };
   },
+  /**
+   * Avvia la transizione al mount
+   */
   mounted() {
     setTimeout(() => {
       this.imgOpacity = 1;
@@ -33,6 +44,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 div {
   position: fixed;

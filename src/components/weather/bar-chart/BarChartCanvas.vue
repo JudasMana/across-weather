@@ -5,15 +5,27 @@
 <script>
 import Chart from "chart.js/auto";
 
+/**
+ * Componente che mostra il grafico a barre
+ * Riceve:
+ * chartData: dati da reportizzare
+ * filters: filtri sui dati selezionati
+ */
 export default {
   props: ["chartData", "filters"],
+  /**
+   * barChart: Chart Object (da Chart.js)
+   */
   data() {
     return {
       barChart: null,
     };
   },
   methods: {
-    async drawStandardBar() {
+    /**
+     * Assegna a barChart l'oggetto Chart del grafico a barre e lo disegna nel canvas
+     */
+    async drawBar() {
       this.chart = new Chart(this.$refs.canvasBar, {
         type: "bar",
         options: {
@@ -66,7 +78,7 @@ export default {
           datasets: [
             {
               label: this.axisYTitle,
-              data: this.dataToShow,
+              data: this.chartData.map((row) => row.value),
               barPercentage: 1,
               categoryPercentage: 0.8,
             },
@@ -74,9 +86,12 @@ export default {
         },
       });
     },
-    async drawStackedLine() {
+    /**
+     * Assegna a barChart l'oggetto Chart del grafico a linee e lo disegna nel canvas
+     */
+    async drawLine() {
       this.chart = new Chart(this.$refs.canvasBar, {
-        type: "bar",
+        type: "line",
         options: {
           animation: true,
           plugins: {
@@ -126,14 +141,14 @@ export default {
           datasets: [
             {
               label: "Min Temperature",
-              data: this.dataToShow.map((data) => data[0]),
+              data: this.chartData.map((data) => data.value[0]),
               backgroundColor: "rgba(11, 127, 171, 0.6)",
               borderColor: "rgb(11, 127, 171)",
               borderWidth: 2,
             },
             {
               label: "Max Temperature",
-              data: this.dataToShow.map((data) => data[1]),
+              data: this.chartData.map((data) => data.value[1]),
               backgroundColor: "rgba(175, 65, 84, 0.6)",
               borderColor: "rgb(175, 65, 84)",
               borderWidth: 2,
@@ -142,6 +157,10 @@ export default {
         },
       });
     },
+    /**
+     * Calcola l'etichetta (del tooltip) di dati corretta in base ai filtri selezionati
+     * Restituisce una stringa
+     */
     getLabel(context) {
       let label = "";
 
@@ -158,28 +177,25 @@ export default {
       return label;
     },
   },
+  /**
+   * Disegna il grafico corretto al mount in base ai filtri selezionati
+   */
   mounted() {
-    this.filters.minMaxTemp ? this.drawStackedLine() : this.drawStandardBar();
+    this.filters.minMaxTemp ? this.drawLine() : this.drawBar();
   },
   watch: {
+    /**
+     * Disegna il grafico corretto in base ai filtri selezionati quando dei dati vengono aggiornati
+     */
     chartData() {
       this.chart.destroy();
-      this.filters.minMaxTemp ? this.drawStackedLine() : this.drawStandardBar();
+      this.filters.minMaxTemp ? this.drawLine() : this.drawBar();
     },
   },
   computed: {
-    dataToShow() {
-      console.log(
-        this.chartData.map((row) => {
-          return row.value;
-        })
-      );
-      const valoriDeiDati = this.chartData.map((row) => {
-        return row.value;
-      });
-
-      return valoriDeiDati;
-    },
+    /**
+     * Calcola l'etichetta (dell'asse) corretta in base ai filtri selezionati
+     */
     axisYTitle() {
       if (this.filters.mainTemp) {
         return "Temperature (°C)";

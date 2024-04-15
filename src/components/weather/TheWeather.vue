@@ -8,11 +8,7 @@
     </BaseCard>
     <section v-if="!isLoading && !error && weatherData">
       <div class="mainWeatherContainer">
-        <MainWeather
-          :weatherData="weatherData"
-          :forecastData="forecastData"
-          :cityData="cityData"
-        />
+        <MainWeather :weatherData="weatherData" :cityData="cityData" />
       </div>
       <div class="filtersContainer">
         <TheFilter :currentFilters="filters" @update-filters="updateFilters" />
@@ -45,11 +41,22 @@ import MainWeather from "./MainWeather.vue";
 import TheTable from "./table/TheTable";
 import TheBarChart from "./bar-chart/TheBarChart.vue";
 import ThePieChart from "./pie-chart/ThePieChart.vue";
-import TheFilter from "../filters/TheFilter";
+import TheFilter from "./filters/TheFilter";
 import { fuso } from "../../config";
 
+/**
+ * Componente che mostra i dati del meteo per la città selezionata
+ * Riceve:
+ * cityData: Object, oggetto con info nelle coordinaate della città seelzionata
+ * weatherData: Object, informaizoni prese daall'API riguardo al meteo attuale nelle coordinaate della città seelzionata
+ * isLoading: bool, indica se è in corso il fetch dalle API
+ * error: bool, indicaa se il fetch dalle API non è andat a buon fine
+ */
 export default {
   props: ["cityData", "weatherData", "forecastData", "isLoading", "error"],
+  /**
+   * filters: dati sui filtri attualmente selezionati (divisi tra filtri temporali e ai dati)
+   */
   data() {
     return {
       filters: {
@@ -75,20 +82,27 @@ export default {
     TheTable,
   },
   methods: {
+    /**
+     * Metodo che aggiorna i filtri
+     * Lanciato in seguito all'evento custom update-filters
+     */
     updateFilters(obj) {
       this.filters = obj;
     },
   },
   computed: {
+    /**
+     * Ricava il giorno da reportizzare nelle componenti
+     * Lo restituisce come oggetto Date
+     * Notare che dopo le 23 (21 + 2h di fuso orario) si scala al girono successivo
+     */
     dayOfTheFilter() {
       let daysToAdd;
       if (this.filters.timeFilters.restOfTheDay) {
         daysToAdd = 0;
-      }
-      if (this.filters.timeFilters.tomorrow) {
+      } else if (this.filters.timeFilters.tomorrow) {
         daysToAdd = 1;
-      }
-      if (this.filters.timeFilters.theDayAfter) {
+      } else if (this.filters.timeFilters.theDayAfter) {
         daysToAdd = 2;
       }
 
@@ -100,6 +114,9 @@ export default {
 
       return new Date(date.setDate(date.getDate() + daysToAdd));
     },
+    /**
+     * Filtra i forecastData tenendo solo i dati relativi ail giorno ricavato in dayOfTheFilter
+     */
     forecastDataOfTheDay() {
       return this.forecastData.list.filter((fore) => {
         return (

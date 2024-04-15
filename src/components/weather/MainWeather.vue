@@ -27,31 +27,52 @@
 import { getImage } from "@/helpers";
 import TheSeparator from "../UI/TheSeparator";
 
+/**
+ * Componente che mostra i dati del meteo attuali nelle coordinate della città selezionata
+ * Riceve:
+ * weatherData: Object, dati del meteo attuali ricavati dall'API
+ * cityData: Object, dati della città selezionata
+ */
 export default {
+  /**
+   * showCard: gestisce l'aanimazione di scorrimento al mount
+   */
   data() {
     return {
       showCard: false,
     };
   },
   components: { TheSeparator },
-  props: ["weatherData", "cityData", "forecastData"],
+  props: ["weatherData", "cityData"],
   computed: {
+    /**
+     * Ricava e formatta la temperatura attuale
+     */
     mainTemperature() {
       if (!this.weatherData.main.temp) {
         return "No Data";
       }
       return (this.weatherData.main.temp - 273.15).toFixed(1);
     },
+    /**
+     * Ricava e formatta la temperatura percepita attuale
+     */
     perceivedTemperature() {
       if (!this.weatherData.main.feels_like) {
         return "No Data";
       }
       return (this.weatherData.main.feels_like - 273.15).toFixed(1);
     },
+    /**
+     * Ricava l'icona del meteo in base al codice relativo tramita la funzoione getImage (vd. helpers.js)
+     */
     weatherIconPath() {
       return getImage(this.weatherData.weather[0]?.icon);
     },
   },
+  /**
+   * Mostra la componente al mount. Attiva l'animazione
+   */
   mounted() {
     this.showCard = true;
   },

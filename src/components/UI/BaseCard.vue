@@ -5,6 +5,9 @@
 </template>
 
 <script>
+/**
+ * Componente base di styling per le carte presenti nell'applicaazione
+ */
 export default {};
 </script>
 

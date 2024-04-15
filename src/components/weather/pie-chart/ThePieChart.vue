@@ -23,7 +23,16 @@ import { showCardTransitionTime } from "@/config";
 import PieChartCanvas from "./PieChartCanvas.vue";
 import PieChartLegendItem from "./PieChartLegendItem.vue";
 
+/**
+ * Carta che contiene il grafico a torta
+ * Riceve:
+ * forecastData: Object, dati delle previsioni meteo nelle coordinate della città selezionata nel giorno indicato tramite i filtri
+ * dayOfData: Date Object, il giorno indicato tramite i filtri
+ */
 export default {
+  /**
+   * showCard: bool, serve a gestire l'animazione di scorrimento
+   */
   data() {
     return {
       showCard: false,
@@ -32,6 +41,10 @@ export default {
   props: ["forecastData", "dayOfData"],
   components: { PieChartCanvas, PieChartLegendItem },
   computed: {
+    /**
+     * Raggruppa i dati del meteo
+     * Restituisce un oggetto del tipo {description: {value: # di occorrenze del meteo, code: codice del meteo, description: descrizione del meteo}}
+     */
     forecast() {
       const forecast = this.forecastData.map((fore) => {
         return {
@@ -55,6 +68,9 @@ export default {
 
       return groupedData;
     },
+    /**
+     * Formatta la stringa del giorno selezionato
+     */
     dayString() {
       const dateFormat = new Intl.DateTimeFormat("en-EN", {
         dateStyle: "full",
@@ -62,6 +78,9 @@ export default {
       return dateFormat.format(this.dayOfData).toUpperCase();
     },
   },
+  /**
+   * Gestisce l'animazione di scorrimento
+   */
   mounted() {
     setTimeout(() => {
       this.showCard = true;

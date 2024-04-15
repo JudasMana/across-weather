@@ -8,15 +8,27 @@
 <script>
 import { getImage, getColor } from "@/helpers";
 
+/**
+ * Elemento della legenda dellaa carta del grafico a torta
+ * Riceve:
+ * legendItem: Object, informazioni raggruppate sul meteo della giornata selezionata
+ */
 export default {
   props: ["legendItem"],
   computed: {
+    /**
+     * formatta i dati da mostrare nell'elemento
+     * Utilizza la funzione getImage (vd. helpers.js)
+     */
     legendData() {
       return {
         image: getImage(this.legendItem.code),
         description: this.legendItem.description,
       };
     },
+    /**
+     * Ottiene il colore dell'elemento trmaite getColor (vd. helpers.js)
+     */
     itemColor() {
       return getColor(this.legendItem.code);
     },

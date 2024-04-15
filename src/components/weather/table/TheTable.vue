@@ -28,7 +28,16 @@ import { fillForecasts } from "@/helpers";
 import { showCardTransitionTime } from "@/config";
 import TableRow from "./TableRow";
 
+/**
+ * Componente che mostra la tabella
+ * Riceve:
+ * forecastData: Object, dati delle previsioni meteo nelle coordinate della città selezionata nel giorno indicato tramite i filtri
+ * dayOfData: Date Object, il giorno indicato tramite i filtri
+ */
 export default {
+  /**
+   * showCard: bool, serve a gestire l'animazione di scorrimento al mount
+   */
   data() {
     return {
       showCard: false,
@@ -37,16 +46,25 @@ export default {
   props: ["dayOfData", "forecastData"],
   components: { TableRow },
   computed: {
+    /**
+     * Formatta la stringa del giorno selezionato
+     */
     dayString() {
       const dateFormat = new Intl.DateTimeFormat("en-EN", {
         dateStyle: "full",
       });
       return dateFormat.format(this.dayOfData).toUpperCase();
     },
+    /**
+     * Prepara i dati da mostrare nella tabella tramite fillForecasts (vd. helpers.js)
+     */
     forecast() {
-      return fillForecasts(this.forecastData, "mainTemp");
+      return fillForecasts(this.forecastData);
     },
   },
+  /**
+   * Gestisce l'animazione di scorrimento
+   */
   mounted() {
     setTimeout(() => {
       this.showCard = true;

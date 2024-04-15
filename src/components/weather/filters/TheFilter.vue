@@ -62,15 +62,34 @@
 import { showCardTransitionTime } from "@/config";
 import FilterTab from "./FilterTab.vue";
 
+/**
+ * Carta con i filtri
+ * Riceve:
+ * currentFilters: Object, dati sui filtri attivi nella pagina
+ */
 export default {
+  /**
+   * showCard: bool, indica se la carta è visibile o meno (per far funzionare l'animazione). Se vera toglie la calsse hidden dalla componente
+   */
   data() {
     return {
       showCard: false,
     };
   },
+  /**
+   * filterTab: bottone dei filtri
+   */
   components: { FilterTab },
   props: ["currentFilters"],
   methods: {
+    /**
+     * funzione che crea un evento custom per aggiornare i dati relativi ai filtri.
+     * Riceve:
+     * key: string, indica quale tasto dei filtri è stato cliccato
+     * diasabled: bool, se vero i filtri non vengono aggiornati
+     *
+     * Emette l'evento update-filters con l'oggetto che andrà a sostituira l'oggetto filtri attuale nellaa componente TheWeaather
+     */
     updateFilters(key, disabled = false) {
       if (disabled) return;
       if (["restOfTheDay", "tomorrow", "theDayAfter"].includes(key)) {
@@ -100,6 +119,9 @@ export default {
     },
   },
   emits: ["update-filters"],
+  /**
+   * Gestisce l'animazione al mount della componente
+   */
   mounted() {
     setTimeout(() => {
       this.showCard = true;

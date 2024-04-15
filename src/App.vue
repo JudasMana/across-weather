@@ -19,8 +19,19 @@ import TheSearchbar from "./components/searchbar/TheSearchbar.vue";
 import TheWeather from "./components/weather/TheWeather";
 import TheStartScreen from "./components/layout/TheStartScreen.vue";
 
+/**
+ * Componente base dell'applicazione
+ */
 export default {
   components: { TheHeader, TheSearchbar, TheWeather, TheStartScreen },
+  /**
+   * cityData: Object, informazioni sulla città selezionata
+   * weatherData: Object, informazioni sul meteo attuale nelle coordinate della città selezionata, ricavate dall'API
+   * forecastData: Object, informazioni sulle previsioni meteo nelle coordinate della città selezionata, ricavate dall'API
+   * fetchError: bool, indica un errore durante il fetch dall'API
+   * fetchLoading: bool, indica che il fetch dall'API è in corso
+   * showStartScreen: bool, gestisce la visiblità della schermata inziale
+   */
   data() {
     return {
       cityData: null,
@@ -32,6 +43,10 @@ export default {
     };
   },
   methods: {
+    /**
+     * Viene lanciata dopo l'evento custom setCoords, riceve un Object on i dati sulla città selezionata (tra cui le coordinate).
+     * Aggionrna cityData e chiama setWeather. Gestisce lo statao di loaading e di errore
+     */
     async setCityData(cityData) {
       this.weatherData = null;
       this.forecastData = null;
@@ -48,20 +63,24 @@ export default {
 
       this.fetchLoading = false;
     },
+    /**
+     * Setta weatherData e forecastData chiamanado le API del meteo
+     */
     async setWeather() {
       this.weatherData = await getWeatherData(
         this.cityData.lat,
         this.cityData.lon
       );
-      // console.log(this.weatherData);
 
       this.forecastData = await getForecastData(
         this.cityData.lat,
         this.cityData.lon
       );
-      console.log(this.forecastData);
     },
   },
+  /**
+   * Gestisce la visiblità della schermata inziale
+   */
   mounted() {
     setTimeout(() => {
       this.showStartScreen = false;

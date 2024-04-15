@@ -7,8 +7,16 @@
 </template>
 
 <script>
+/**
+ * Elemento della lista dei suggeriti sotto la barra di ricerca.
+ * Riceve:
+ * city: Object, contiene info sulla città (proprietà name e country)
+ */
 export default {
   props: ["city"],
+  /**
+   * Al click emette l'evento custom sendCitySignal per indicare quale città è stat cliccata
+   */
   methods: {
     sendSignal() {
       this.$emit("sendCitySignal", this.city.name);

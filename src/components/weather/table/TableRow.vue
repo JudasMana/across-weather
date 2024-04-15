@@ -21,7 +21,19 @@
 import { getImage } from "../../../helpers.js";
 import { tableAnimationDelay } from "@/config.js";
 
+/**
+ * Riga della tabella
+ * Riceve:
+ * time: string, ora relativa alla riga
+ * temp: float, temperaature nell'ora della riga
+ * weahterCode: string, codice del meteo nell'ora della riga
+ * delay: int, usate per il ritardo nelle animazioni delle icone (corrisponde all'indice della riga)
+ */
 export default {
+  /**
+   * showAnimation: gestisce le animazioni delle icone
+   * aaniamtionDelay: delay standard per le icone (vd. config.js)
+   */
   data() {
     return {
       showAnimation: true,
@@ -30,9 +42,15 @@ export default {
   },
   props: ["time", "temp", "weatherCode", "delay"],
   computed: {
+    /**
+     * Restituisce l'icone in base al codice trmaite getImage (vd. helpers.js)
+     */
     icon() {
       return getImage(this.weatherCode);
     },
+    /**
+     * Formatta il valaore della temperatura
+     */
     tempValue() {
       if (!this.icon) {
         return "-";
@@ -40,6 +58,9 @@ export default {
       return this.temp.toFixed(1) + " °C";
     },
   },
+  /**
+   * Se cambiano dei dati nella riga, resetta le animazioni
+   */
   watch: {
     time() {
       this.resetAnimation();
@@ -52,6 +73,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Resetta le animaazioni togliendo e rimettendo la classe alle icone tramite showAnimation
+     */
     resetAnimation() {
       this.showAnimation = false;
       setTimeout(() => {
