@@ -2,7 +2,7 @@
 
 L'applicazione ha l'obbiettivo di restituire una dashboard con dati e grafici sul meteo in una data città.
 
-Il flusso inizia con la barra di ricerca, nella quale l'utente ha la possibilità di selezionare una città tra quelle proposte. Le città proposte sono filtrate da un database locale con tutte le città del mondo (https://github.com/lutangar/cities.json), e selezionandola si ricavano latitudine e longitudine della città, necessarie per reperire i dati sul meteo.
+Il flusso inizia con la barra di ricerca, nella quale l'utente ha la possibilità di selezionare una città tra quelle proposte. Le città proposte sono filtrate da un database locale con tutte le città del mondo (https://github.com/lutangar/cities.json) e selezionandola si ricavano latitudine e longitudine della città, necessarie per reperire i dati sul meteo.
 Un possibile upgrade sarebbe integrare le API di GoogleMaps per fornire dati sui luoghi più dettagliati (come informazioni sul paese della città, fuso orario, ecc...) che permetterebbe ad esempio di integrare filtri aggiuntivi di ricerca oltre al testo nella barra di ricerca.
 
 Una volta selezionata la città, verrà fatta una chiamata alle API del meteo (https://openweathermap.org/api) tramite longitudine e latitudine. Tale chiamata restituirà due Json:
