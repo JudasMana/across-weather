@@ -146,19 +146,19 @@ export default {
 
 html {
   width: 100vw;
-  min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
 }
 
 body {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: var(--main-white);
 }
 
 #app {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   height: 100%;
   display: flex;
   flex-direction: column;
