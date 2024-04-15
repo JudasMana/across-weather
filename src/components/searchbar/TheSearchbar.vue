@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getCityData } from "../..//helpers.js";
+import { getCityData } from "../../helpers.js";
 
 import SearchSuggestion from "./SearchSuggestion.vue";
 

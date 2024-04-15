@@ -95,7 +95,7 @@ export const getWeatherData = async function (lat, lon) {
   const res = await fetch(url);
 
   if (!res.ok) {
-    throw new Error();
+    throw new Error("Failed to fetch");
   }
 
   return await res.json();
@@ -118,7 +118,7 @@ export const getForecastData = async function (lat, lon) {
   const res = await fetch(url);
 
   if (!res.ok) {
-    throw new Error();
+    throw new Error("Failed to fetch");
   }
   return await res.json();
 };
@@ -133,6 +133,12 @@ export const getForecastData = async function (lat, lon) {
  * Array i cui elementi sono oggetti del tipo {date: string, indicaa l'orario del dato, value: valore del dato in quell'orario, icon: codice del meteo in quell'orario}
  */
 export const fillForecasts = function (forecasts, type = "mainTemp") {
+  if (!["mainTemp", "minMaxTemp", "humidity", "wind"].includes(type)) {
+    throw new Error(
+      "Specify a type between: 'mainTemp', 'minMaxTemp', 'humidity', 'wind'"
+    );
+  }
+
   const actualForecast = forecasts.map((fore) => {
     let mappedValue;
     if (type === "mainTemp") {
@@ -195,9 +201,11 @@ export const fillForecasts = function (forecasts, type = "mainTemp") {
  * code: string, indica il codice del meteo
  */
 export const getImage = function (code) {
-  if (!code) {
-    return null;
+  if (!code || typeof code !== "string") {
+    return;
   }
+
+  if (code.length < 2) return null;
 
   let image;
   const dayPeriod = code.slice(-1) === "d" ? "day" : "night";
@@ -245,6 +253,9 @@ export const getImage = function (code) {
  * code: string, indica il codice del meteo
  */
 export const getColor = function (code) {
+  if (typeof code !== "string") return;
+  if (code.length < 2) return null;
+
   let colorCode;
   const imageCode = code.slice(0, 2);
 

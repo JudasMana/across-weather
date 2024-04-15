@@ -1,1 +1,0 @@
-FROM nginx AS Image
