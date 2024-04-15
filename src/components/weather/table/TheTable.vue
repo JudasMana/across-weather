@@ -97,7 +97,7 @@ th {
 
 @media screen and (min-width: 1200px) {
   #hour-column {
-    width: 40%;
+    width: 50%;
   }
 }
 </style>

@@ -4,13 +4,6 @@
   </div>
 </template>
 
-<script>
-/**
- * Componente che mostra lo spinner ruotante
- */
-export default {};
-</script>
-
 <style scoped>
 @keyframes rotate {
   from {
@@ -22,10 +15,10 @@ export default {};
 }
 
 img {
-  animation-name: rotate;
-  animation-duration: 1s;
   aspect-ratio: 1/1;
   width: 4rem;
+  animation-name: rotate;
+  animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.93, 0.15, 0.24, 0.76);
 }

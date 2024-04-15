@@ -35,7 +35,7 @@ export default {
 
     setTimeout(() => {
       this.imgOpacity = 0;
-      this.logoYMove = "translateY(-30rem) scale(0.5)";
+      this.logoYMove = "translateY(-45vh) scale(0.5)";
     }, 2500);
 
     setTimeout(() => {
@@ -50,7 +50,7 @@ div {
   position: fixed;
   inset: 0;
   background-color: var(--main-white);
-  z-index: 10;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;

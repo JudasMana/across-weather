@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <form @submit.prevent="setSearch">
       <input
         type="text"
@@ -25,7 +25,7 @@
       <p class="error-message" v-if="searchEmptyError">Search a city name</p>
       <p class="error-message" v-if="searchError">No cities found</p>
     </form>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -157,7 +157,7 @@ export default {
 </script>
 
 <style scoped>
-div {
+section {
   width: 100%;
   display: flex;
   align-items: center;
@@ -170,13 +170,6 @@ form {
   position: relative;
   border-radius: 3rem;
   height: 4rem;
-}
-
-@media screen and (min-width: 490px) {
-  form {
-    width: var(--medium-width);
-    height: 2.5rem;
-  }
 }
 
 input {
@@ -233,7 +226,7 @@ ul {
   background-color: white;
   border: 1px solid rgb(209, 184, 184);
   position: absolute;
-  top: 3rem;
+  top: 4.5rem;
   left: 0.3rem;
   right: 0.3rem;
   border-radius: 5px;
@@ -242,7 +235,7 @@ ul {
 #context-window {
   background-color: white;
   position: absolute;
-  top: 3rem;
+  top: 4.5rem;
   left: 0.3rem;
   right: 0.3rem;
   border-radius: 5px;
@@ -260,5 +253,20 @@ ul {
   left: 0.8rem;
   font-size: 1rem;
   font-style: italic;
+}
+
+@media screen and (min-width: 490px) {
+  form {
+    width: var(--medium-width);
+    height: 2.5rem;
+  }
+
+  ul {
+    top: 3rem;
+  }
+
+  #context-window {
+    top: 3rem;
+  }
 }
 </style>

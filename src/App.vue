@@ -9,21 +9,29 @@
     :isLoading="fetchLoading"
     :error="fetchError"
   />
+  <TheFooter />
 </template>
 
 <script>
 import { getWeatherData, getForecastData } from "./helpers.js";
 
+import TheStartScreen from "./components/layout/TheStartScreen.vue";
 import TheHeader from "./components/layout/TheHeader";
 import TheSearchbar from "./components/searchbar/TheSearchbar.vue";
 import TheWeather from "./components/weather/TheWeather";
-import TheStartScreen from "./components/layout/TheStartScreen.vue";
+import TheFooter from "./components/layout/TheFooter.vue";
 
 /**
  * Componente base dell'applicazione
  */
 export default {
-  components: { TheHeader, TheSearchbar, TheWeather, TheStartScreen },
+  components: {
+    TheHeader,
+    TheSearchbar,
+    TheWeather,
+    TheStartScreen,
+    TheFooter,
+  },
   /**
    * cityData: Object, informazioni sulla città selezionata
    * weatherData: Object, informazioni sul meteo attuale nelle coordinate della città selezionata, ricavate dall'API
@@ -138,17 +146,20 @@ export default {
 
 html {
   width: 100vw;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
 body {
   width: 100%;
+  min-height: 100vh;
   background-color: var(--main-white);
 }
 
 #app {
   width: 100%;
-  height: max-content;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

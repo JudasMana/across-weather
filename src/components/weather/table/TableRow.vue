@@ -93,7 +93,6 @@ tr {
 }
 
 td {
-  height: 3rem;
   text-align: center;
 }
 

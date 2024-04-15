@@ -161,6 +161,7 @@ section {
 .tableContainer {
   grid-area: tabella;
   width: 100%;
+  height: max-content;
 }
 
 .barChartContainer {
@@ -172,6 +173,7 @@ section {
 .pieChartContainer {
   grid-area: pieChart;
   width: 100%;
+  height: max-content;
 }
 
 #medium-container {
@@ -189,43 +191,28 @@ section {
 @media screen and (min-width: 1200px) {
   section {
     display: grid;
-    grid-template-areas: "weather weather" "filter filter" "barChart barChart" "tabella pieChart";
-    grid-template-columns: 4fr 3fr;
+    grid-template-areas: "weather weather weather weather" "filter filter barChart barChart" "tabella tabella tabella pieChart";
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 1rem;
     place-items: start;
     width: var(--main-width);
     column-gap: 1rem;
   }
 
   .filtersContainer {
-    height: max-content;
-  }
-
-  .tableContainer {
-    height: max-content;
+    height: 100%;
   }
 
   .barChartContainer {
-    height: max-content;
-  }
-
-  .pieChartContainer {
-    height: max-content;
+    height: 100%;
   }
 }
 
 @media screen and (min-width: 1400px) {
   section {
-    grid-template-areas: "weather weather" "filter barChart" "tabella pieChart";
-    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "weather weather weather weather" "filter filter barChart barChart" "tabella tabella tabella pieChart";
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     row-gap: 1rem;
-  }
-
-  .filtersContainer {
-    height: 100%;
-  }
-
-  .barChartContainer {
-    height: 100%;
   }
 }
 </style>

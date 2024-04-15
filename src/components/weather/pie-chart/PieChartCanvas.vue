@@ -91,9 +91,3 @@ export default {
   },
 };
 </script>
-
-<style>
-canvas {
-  box-sizing: border-box;
-}
-</style>

@@ -30,18 +30,6 @@ export default {
   box-shadow: 0 0 2px rgb(28, 31, 29);
 }
 
-@media screen and (min-width: 490px) {
-  .tab {
-    height: 2rem;
-  }
-}
-
-@media screen and (min-width: 1400px) {
-  .tab {
-    height: 2.5rem;
-  }
-}
-
 .tab:active {
   background-color: rgb(207, 191, 191);
 }
@@ -50,5 +38,17 @@ export default {
   background-color: var(--main-accent);
   color: white;
   box-shadow: inset 0 0 5px rgb(9, 65, 13);
+}
+
+@media screen and (min-width: 490px) {
+  .tab {
+    height: 2.4rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .tab {
+    height: 2.5rem;
+  }
 }
 </style>

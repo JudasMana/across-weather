@@ -122,7 +122,8 @@ export default {
 
 #weather-info {
   aspect-ratio: 1/1;
-  width: 6rem;
+  width: 8rem;
+  margin-bottom: -2rem;
 }
 
 #weather-info img {

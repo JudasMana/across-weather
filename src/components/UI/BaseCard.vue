@@ -1,15 +1,8 @@
 <template>
   <div>
-    <slot name="default"></slot>
+    <slot></slot>
   </div>
 </template>
-
-<script>
-/**
- * Componente base di styling per le carte presenti nell'applicaazione
- */
-export default {};
-</script>
 
 <style scoped>
 div {

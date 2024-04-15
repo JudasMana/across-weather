@@ -133,6 +133,7 @@ export default {
 <style scoped>
 section {
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: start;
   justify-content: space-around;
@@ -160,17 +161,24 @@ section {
   background-color: rgb(160, 144, 144);
 }
 
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 490px) {
   section {
-    height: 100%;
+    padding: 0 3rem;
+  }
+
+  .filters {
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  section {
+    padding: 0;
   }
 
   .filters {
     width: 35%;
-    display: flex;
-    flex-direction: column;
     gap: 0.7rem;
-    align-items: center;
   }
 }
 </style>

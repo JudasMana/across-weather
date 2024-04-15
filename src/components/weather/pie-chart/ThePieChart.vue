@@ -104,7 +104,7 @@ section {
 
 #graph-container {
   aspect-ratio: 1/1;
-  width: 50%;
+  width: 40%;
 }
 
 @media screen and (min-width: 1200px) {
